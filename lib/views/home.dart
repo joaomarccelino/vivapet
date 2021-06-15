@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:viva_pet/main.dart';
+import 'package:viva_pet/views/authUser.dart';
 import 'package:viva_pet/views/cadPet.dart';
+import 'package:viva_pet/views/listPet.dart';
 import 'package:viva_pet/widgets/buttons.dart';
 import 'package:viva_pet/widgets/texts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,13 +17,46 @@ FirebaseAuth auth = FirebaseAuth.instance;
 
 class _HomeState extends State<Home> {
   final String user = "João";
+  final String assetName = 'images/logo.png';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Página inicial"),
+        title: Text("Seja bem vindo(a) $user"),
       ),
       body: _main(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            label: "Cadastrar Pet",
+            icon: IconButton(
+                icon: Icon(Icons.pets),
+                onPressed: () => {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => CadPet()))
+                    }),
+          ),
+          BottomNavigationBarItem(
+            label: "Meus Pets",
+            icon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () => {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => ListPet()))
+                    }),
+          ),
+          BottomNavigationBarItem(
+            label: "Sair",
+            icon: IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromRGBO(255, 0, 0, 0.5),
+              ),
+              onPressed: () => _logout(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -34,7 +70,7 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _header(),
-          _menu(),
+          _body(),
         ],
       ),
     );
@@ -44,33 +80,29 @@ class _HomeState extends State<Home> {
     return Container(
       width: 350,
       padding: EdgeInsets.all(10),
-      color: Color.fromRGBO(150, 228, 177, 1),
+      color: PrimaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TitleText("Olá $user!!"),
+          Text(
+            "Aqui você pode consultar, cadastrar e acompanhar o seus animaizinhos!!!",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  _menu() {
+  _body() {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Button(
-            "Cadastrar Pet",
-            onPressed: () => {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => CadPet()))
-            },
-          ),
-          Button("Meus Pets"),
-          Button(
-            "Sair",
-            onPressed: () => _logout(),
-          )
+          Image.asset(assetName),
         ],
       ),
     );
@@ -78,8 +110,8 @@ class _HomeState extends State<Home> {
 
   Future<void> _logout() async {
     await FirebaseAuth.instance.signOut().then((_) => {
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) => Home()))
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => AuthUser()))
         });
   }
 }
