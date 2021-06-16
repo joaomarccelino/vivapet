@@ -27,29 +27,36 @@ class _AuthUserState extends State<AuthUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange.shade300,
       body: _body(),
     );
   }
 
   _body() {
     return Container(
+      height: double.infinity,
       color: Colors.orange.shade300,
       padding: EdgeInsets.all(30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(assetName),
-          stageNew ? _signIn() : _login(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            stageNew ? _signIn() : _login(),
+          ],
+        ),
       ),
     );
   }
 
   _login() {
-    return Form(
+    return Container(
+      margin: EdgeInsets.only(top: 100.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset(assetName),
           Input(
             'e-mail',
             false,
@@ -79,6 +86,7 @@ class _AuthUserState extends State<AuthUser> {
     return Form(
       child: Column(
         children: [
+          Image.asset(assetName),
           Input(
             'nome',
             false,
