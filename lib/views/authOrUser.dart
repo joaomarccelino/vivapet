@@ -20,6 +20,8 @@ class AuthOrUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     authOrApp(context);
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.orange.shade300,
+    );
   }
 }

@@ -149,8 +149,9 @@ class _AuthUserState extends State<AuthUser> {
   }
 
   _userSignIn() async {
-    if (_password == _confirmPassword) {
+    if (_password.text == _confirmPassword.text) {
       try {
+        await Firebase.initializeApp();
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: _email.text, password: _password.text)
@@ -176,8 +177,10 @@ class _AuthUserState extends State<AuthUser> {
     users.doc(uid).set({
       "name": _name.text,
       "cpf": _cpf.text,
-    }).then((value) => AlertDialog(
-          title: Text("Usuário Cadastrado com sucesso!"),
-        ));
+    }).then((value) => this.setState(() {
+          _email.text = '';
+          _password.text = '';
+          stageNew = false;
+        }));
   }
 }
